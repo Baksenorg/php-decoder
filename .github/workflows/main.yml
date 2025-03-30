@@ -1,0 +1,40 @@
+name: PHP Decoder
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        extensions: ioncube
+        ini-values: |
+          zend_extension=ioncube_loader_lin_7.4.so
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y php-cli
+
+    - name: Run decoder
+      run: |
+        python3 decoder.py
+
+    - name: Upload decoded file
+      uses: actions/upload-artifact@v2
+      with:
+        name: decoded-php
+        path: decoded.php
