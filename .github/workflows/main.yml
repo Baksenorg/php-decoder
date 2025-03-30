@@ -31,7 +31,7 @@ jobs:
 
     - name: Run decoder
       run: |
-        python3 decoder.py
+        python3 decoder.py encoded.php decoded.php
 
     - name: Upload decoded file
       uses: actions/upload-artifact@v4
